@@ -78,9 +78,11 @@ function joinRoom(roomId, socketId, playerName) {
     return room;
   }
 
+  const nameFromExisting = trimmedName || "Player";
+  const finalName = getUniqueName(room.players, nameFromExisting);
   room.players[socketId] = {
     id: socketId,
-    name: getUniqueName(room.players, trimmedName || "Player"),
+    name: finalName,
     vote: null,
     hasVoted: false,
     isSpectator: false,

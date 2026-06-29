@@ -72,7 +72,9 @@ function attachListenersOnce() {
 function showToast(message) {
   const toast = document.createElement("div");
   toast.className = "toast";
-  toast.textContent = message;
+  toast.innerHTML = `<div>${message}</div><button class="toast-close" aria-label="Close">×</button>`;
+  const closeBtn = toast.querySelector(".toast-close");
+  closeBtn.addEventListener("click", () => toast.remove());
   elements.toastContainer.appendChild(toast);
   window.setTimeout(() => {
     toast.remove();

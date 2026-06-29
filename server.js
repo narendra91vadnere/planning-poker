@@ -18,6 +18,12 @@ const socketToRoom = new Map();
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/api/rooms/:roomId", (req, res) => {
@@ -58,8 +64,16 @@ io.on("connection", (socket) => {
       return;
     }
 
-    const room = roomManager.joinRoom(roomId, socket.id, name);
+    const room = roomManager.getRoom(roomId);
     if (!room) {
+      socket.emit("error", { message: "Room not found." });
+      return;
+    }
+
+    const existingPlayer = room.players[socket.id];
+    const wasAlreadyInRoom = Boolean(existingPlayer);
+    const joinedRoom = roomManager.joinRoom(roomId, socket.id, name);
+    if (!joinedRoom) {
       socket.emit("error", { message: "Room not found." });
       return;
     }
@@ -71,9 +85,8 @@ io.on("connection", (socket) => {
     socket.emit("room_state", roomState);
     socket.emit("room_joined", { roomId });
 
-    const joinedPlayer = room.players[socket.id];
-    const isReconnect = Boolean(roomState?.players?.[socket.id]);
-    if (!isReconnect) {
+    const joinedPlayer = joinedRoom.players[socket.id];
+    if (!wasAlreadyInRoom) {
       socket.to(roomId).emit("player_joined", { player: joinedPlayer });
       io.to(roomId).emit("toast", { message: `${joinedPlayer.name} joined the room.` });
     }
