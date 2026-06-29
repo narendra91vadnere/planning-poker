@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planning Poker</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-card">
+        <div class="brand-block">
+          <h1>🃏 Planning Poker</h1>
+          <p>Estimate stories with your team in real time.</p>
+        </div>
+
+        <form id="createForm" class="stack">
+          <label for="playerName">Your name</label>
+          <input id="playerName" name="playerName" type="text" placeholder="Enter your name" required />
+          <button id="createRoomBtn" class="primary-btn" type="submit">Create Room</button>
+        </form>
+
+        <div class="divider">or</div>
+
+        <form id="joinForm" class="stack">
+          <label for="roomCode">Room code</label>
+          <input id="roomCode" name="roomCode" type="text" placeholder="Enter room code" />
+          <button id="joinRoomBtn" class="secondary-btn" type="submit">Join Room</button>
+        </form>
+
+        <p id="formMessage" class="message" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

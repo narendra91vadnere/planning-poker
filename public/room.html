@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planning Poker Room</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🃏 Planning Poker</div>
+      <div class="header-actions">
+        <span id="roomBadge" class="room-badge">Room: —</span>
+        <button id="copyLinkBtn" class="secondary-btn">📋 Copy Link</button>
+      </div>
+    </header>
+
+    <main class="room-layout">
+      <section class="main-panel">
+        <section class="panel story-panel">
+          <div class="panel-header">
+            <h2>Story</h2>
+          </div>
+          <div id="storyContent" class="story-content"></div>
+          <div id="storyEditor" class="story-editor hidden">
+            <input id="storyInput" type="text" placeholder="Add story title" />
+            <button id="updateStoryBtn" class="primary-btn">Update</button>
+          </div>
+        </section>
+
+        <section class="panel cards-panel">
+          <div class="panel-header">
+            <h2>Card Deck</h2>
+            <div class="panel-actions">
+              <button id="spectatorToggleBtn" class="secondary-btn">Join as Spectator</button>
+              <button id="revealBtn" class="primary-btn">Reveal Cards</button>
+            </div>
+          </div>
+          <div id="cardDeck" class="card-deck"></div>
+        </section>
+
+        <section class="panel results-panel">
+          <div class="panel-header">
+            <h2>Results</h2>
+            <div id="roundActions" class="panel-actions"></div>
+          </div>
+          <div id="resultsContent" class="results-content"></div>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel players-panel">
+          <div class="panel-header">
+            <h2 id="playerCount">Players (0)</h2>
+          </div>
+          <div id="playerList" class="player-list"></div>
+        </section>
+      </aside>
+    </main>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/room.js"></script>
+  </body>
+</html>
